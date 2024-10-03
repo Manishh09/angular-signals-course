@@ -8,7 +8,11 @@ import {Course} from "../models/course.model";
 })
 export class CoursesServiceWithFetch {
 
-  env = environment;
+  env: any = environment;
 
-
+  async getCoursesWithFetch() : Promise<Course[]> {
+   const resp =  await fetch(`${this.env.apiRoot}/courses`)
+   const jsonResp = await resp.json()
+   return jsonResp.courses as Course[];
+  }
 }
