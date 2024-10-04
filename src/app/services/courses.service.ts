@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
-import { firstValueFrom } from "rxjs";
+import { Observable, firstValueFrom } from "rxjs";
 import { Course } from "../models/course.model";
 import { GetCoursesResponse } from "../models/get-courses.response";
 
@@ -19,6 +19,44 @@ export class CoursesService {
 
     const resp = await firstValueFrom(courses$)
     return resp.courses
+  }
+
+  async createCourseWithHttp(course: Partial<Course>): Promise<Course> {
+    const course$ = this.#http.post<Course>(
+      `${this.env.apiRoot}/courses`, 
+      course,
+      // {
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   }
+      // }
+    )
+    return  firstValueFrom(course$)
+  }
+
+  async saveCourseWithHttp(courseId: string, changes: Partial<Course>): Promise<Course> {
+    const course$ = this.#http.put<Course>(
+      `${this.env.apiRoot}/courses/${courseId}`, 
+      changes,
+    )
+    return  firstValueFrom(course$)
+  }
+
+
+  async deleteCourseWithHttp(courseId: string): Promise<Object> {
+   const delete$ =  this.#http.delete(
+      `${this.env.apiRoot}/courses/${courseId}`
+    )
+    return  firstValueFrom(delete$)
+  }
+
+
+
+
+
+
+  getCoursesWithObservables(): Observable<Course[]> {
+    return this.#http.get<Course[]>(`${this.env.apiRoot}/courses`)  
   }
 
 }
