@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
 
   dialog = inject(MatDialog)
 
-  loadingService = inject(LoadingService)
+  // loadingService = inject(LoadingService)
 
   constructor() {
     effect(() => {
@@ -111,14 +111,15 @@ export class HomeComponent implements OnInit {
 
   async getCoursesWithHttp() {
     try {
-      this.loadingService.loadingOn()
+     // this.loadingService.loadingOn()
       const courses = await this.courseServiceWithHttp.getCoursesWithHttp()
       this.#courses.set(courses)
     } catch (error) {
       console.log("Error while loading the courses")
-    } finally {
-      this.loadingService.loadingOff()
     }
+    //  finally {
+    //   this.loadingService.loadingOff()
+    // }
   }
 
 
@@ -154,7 +155,7 @@ export class HomeComponent implements OnInit {
     const courseId = course.id;
 
     try {
-      this.loadingService.loadingOn()
+      //this.loadingService.loadingOn()
       // call the delete api
       await this.courseServiceWithHttp.deleteCourseWithHttp(courseId);
       // update the original data
@@ -167,9 +168,10 @@ export class HomeComponent implements OnInit {
     } catch (error) {
       console.error(error);
       
-    } finally {
-      this.loadingService.loadingOff()
-    }
+    } 
+    // finally {
+    //   this.loadingService.loadingOff()
+    // }
 
   }
 
