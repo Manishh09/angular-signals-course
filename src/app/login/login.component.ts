@@ -17,4 +17,45 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 export class LoginComponent {
 
 
+  fb = inject(FormBuilder)
+
+  messageService = inject(MessagesService)
+
+  authService = inject(AuthService)
+
+  router = inject(Router)
+
+  form = this.fb.group({
+    email: ['test@angular-university.io'],
+    password: ['test']
+    // email: [''],
+    // password: ['']
+  })
+
+  async onLogin() {
+
+    try {
+      const {email, password} = this.form.value;
+
+      if(!email || !password){
+        this.messageService.showMessage(
+          'Enter email and password',
+          'error'
+        )
+        return
+      }
+
+    const user = await this.authService.login(email!, password)
+    console.log("loggedin user", user);
+    
+    await this.router.navigate(['/home'])
+     
+    
+    } catch (error) {
+      this.messageService.showMessage(
+        'Login failed, please try again',
+        'error'
+      )
+    }
+  }
 }
