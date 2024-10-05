@@ -48,6 +48,8 @@ export class HomeComponent implements OnInit {
 
   // loadingService = inject(LoadingService)
 
+  messageService = inject(MessagesService)
+
   constructor() {
     effect(() => {
       console.log('beginner courses', this.beginnerCourses());
@@ -115,7 +117,11 @@ export class HomeComponent implements OnInit {
       const courses = await this.courseServiceWithHttp.getCoursesWithHttp()
       this.#courses.set(courses)
     } catch (error) {
-      console.log("Error while loading the courses")
+      // console.log("Error while loading the courses")
+      this.messageService.showMessage(
+        `Error while loading the courses!`,
+        "success"
+      )
     }
     //  finally {
     //   this.loadingService.loadingOff()
@@ -164,9 +170,17 @@ export class HomeComponent implements OnInit {
       const newCourses = courses.filter(course =>  course.id !== courseId);
       // emit the signal
       this.#courses.set(newCourses)
-      alert(`Course with id ${courseId} has been deleted`)
+     //  alert(`Course with id ${courseId} has been deleted`)
+      this.messageService.showMessage(
+      `Course with id ${courseId} has been deleted`,
+        "info"
+      )
     } catch (error) {
       console.error(error);
+      this.messageService.showMessage(
+        `Error while deleting the course!`,
+        "error"
+      )
       
     } 
     // finally {

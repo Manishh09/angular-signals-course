@@ -12,7 +12,7 @@ export class LoadingService {
   loadingOn() {
     this.#loadingSignal.set(true)
   }
-
+  
   loadingOff() {
     this.#loadingSignal.set(false);
   }
