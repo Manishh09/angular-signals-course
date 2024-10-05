@@ -1,9 +1,10 @@
 import { Injectable, inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpContext } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { Observable, firstValueFrom } from "rxjs";
 import { Course } from "../models/course.model";
 import { GetCoursesResponse } from "../models/get-courses.response";
+import { SkipLoading } from "../loading/skip-loading.component";
 
 
 @Injectable({
@@ -15,7 +16,13 @@ export class CoursesService {
   #http = inject(HttpClient)
 
   async getCoursesWithHttp(): Promise<Course[]> {
-    const courses$ = this.#http.get<GetCoursesResponse>(`${this.env.apiRoot}/courses`)
+    const courses$ = this.#http.get<GetCoursesResponse>(`${this.env.apiRoot}/courses`,
+      // ensures , hide the loading 
+      // {
+      //   context: new HttpContext().set(SkipLoading, false)
+      // }
+
+    )
 
     const resp = await firstValueFrom(courses$)
     return resp.courses
