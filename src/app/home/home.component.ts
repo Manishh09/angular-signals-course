@@ -10,6 +10,7 @@ import { toObservable, toSignal, outputToObservable, outputFromObservable } from
 import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
 import { GetCoursesResponse } from '../models/get-courses.response';
 import { openDialog } from '../edit-course-dialog/edit-course-dialog.component';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'home',
@@ -44,6 +45,8 @@ export class HomeComponent implements OnInit {
   injector = inject(Injector)
 
   dialog = inject(MatDialog)
+
+  loadingService = inject(LoadingService)
 
   constructor() {
     effect(() => {
@@ -108,10 +111,13 @@ export class HomeComponent implements OnInit {
 
   async getCoursesWithHttp() {
     try {
+      this.loadingService.loadingOn()
       const courses = await this.courseServiceWithHttp.getCoursesWithHttp()
       this.#courses.set(courses)
     } catch (error) {
       console.log("Error while loading the courses")
+    } finally {
+      this.loadingService.loadingOff()
     }
   }
 
@@ -132,7 +138,6 @@ export class HomeComponent implements OnInit {
 
 
   onCourseUpdated(updatedCourse: Course) {
-
     // get current courses
     const courses = this.#courses()
     // update the current / original courses if there's a matching id found
@@ -146,10 +151,10 @@ export class HomeComponent implements OnInit {
 
 
   async onCourseDeleted(course: Course) {
-
     const courseId = course.id;
 
     try {
+      this.loadingService.loadingOn()
       // call the delete api
       await this.courseServiceWithHttp.deleteCourseWithHttp(courseId);
       // update the original data
@@ -162,6 +167,8 @@ export class HomeComponent implements OnInit {
     } catch (error) {
       console.error(error);
       
+    } finally {
+      this.loadingService.loadingOff()
     }
 
   }
