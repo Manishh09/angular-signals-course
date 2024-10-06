@@ -45,11 +45,10 @@ export class LoginComponent {
         return
       }
 
-    const user = await this.authService.login(email!, password)
-    console.log("loggedin user", user);
-    
-    await this.router.navigate(['/home'])
-     
+      const user = await this.authService.login(email!, password)
+      console.log("loggedin user", user);
+      // await here is due to the return type of navigate is  a Promise :)
+      await this.router.navigate(['/home'])
     
     } catch (error) {
       this.messageService.showMessage(

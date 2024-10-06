@@ -17,10 +17,11 @@ export class AuthService {
 
   user = this.#userSignal.asReadonly();
 
-  isLoggedIn = computed(() =>  !!this.user()) // check if user data available in user signal and update flag
+  isLoggedIn = computed(() =>  !!this.user()); // check if user data available in user signal and update flag
 
   http = inject(HttpClient);
 
+  router = inject(Router);
 
   async login(email: string, password: string) : Promise<User> {
 
@@ -40,4 +41,8 @@ export class AuthService {
   }
 
 
+  async logout() {
+    this.#userSignal.set(null);
+    await this.router.navigateByUrl('/login');
+  }
 }
