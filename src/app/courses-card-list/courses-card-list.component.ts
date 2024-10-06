@@ -36,6 +36,10 @@ export class CoursesCardListComponent {
     const newCourse = await openDialog(this.#dialog, config)
     console.log('Course has been updated', newCourse);
 
+    if(!newCourse){
+      return
+    }
+    
     // emit the newCourses / updated course
     this.courseUpdated.emit(newCourse)
     
