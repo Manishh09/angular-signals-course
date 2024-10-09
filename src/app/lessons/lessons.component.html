@@ -1,4 +1,43 @@
 <div class="lessons">
+    @if (mode() === "master") {
+        <div class="header">
+            <h1>Search Lessons</h1>
+        
+            <div class="form-control search-controls">
+                <input type="text" placeholder="Search lessons" (keyup.enter)="onSearch()" #search>
+                <button  class="btn search" (click)="onSearch()">
+                    Search
+                </button>
+            </div>
+
+         </div>
+
+         @if(lessons().length) {
+            <div class="table-container">
+                <div class="results-table">
+                    @for (lesson of lessons(); track lesson.id) {
+                        <tr (click)="onLessonSelected(lesson)">
+                            <td>
+                                {{lesson.description}}
+                            </td>
+                            <td>
+                                {{lesson.duration}}
+                            </td>
+                        </tr>
+                    }
+                </div>
+            </div>
+         }
+    }
+    @else {
+
+        <lesson-detail 
+        [lesson]="selectedLesson()" 
+        (lessonUpdated)="onLessonUpdated($event)"
+        (cancel)="onCancel()"
+        />
+
+    }
 
 
 </div>
