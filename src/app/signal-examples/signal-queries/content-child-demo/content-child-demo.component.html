@@ -1,0 +1,33 @@
+<h2>content-child-query demo!</h2>
+
+<div class="content-child-query">
+
+    <demo-queries>
+        <div class="title" #title>
+            Hello , from to be projected content - title
+        </div>
+
+        <div class="body" #body>
+            <div class="container">
+                <ul>
+                    <li>Item A</li>
+                    <li>Item B</li>
+                    <li>Item C</li>
+                </ul>
+            </div>
+        </div>
+
+        <writable-signal-demo class="comp" #comp/>
+
+        <div class="actions" #actions>
+            <button type="submit">ButtonA</button>
+        </div>
+        <div class="actions" #actions>
+            <button type="submit">ButtonB</button>
+        </div>
+        <div class="actions" #actions>
+            <button type="submit">ButtonC</button>
+        </div>
+    </demo-queries>
+
+</div>

@@ -1,0 +1,19 @@
+<h2>view-children-query demo!</h2>
+
+@for (course of courses(); track course.id) {
+
+    <div class="course-card" #courseCard>
+       <!-- header -->
+       <div class="course-header">
+           <span class="course-title">{{course.title}}</span>
+       </div>
+
+       <!-- body -->
+        <img [src]="course.iconUrl" alt="" class="course-image">
+        <div class="course-description">
+           <p>{{course.longDescription}}</p>
+        </div>
+
+        
+    </div>   
+}
